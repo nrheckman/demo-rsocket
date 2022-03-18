@@ -6,8 +6,11 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.rsocket.server.RSocketServerCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
+import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 import xyz.heckman.demo.rsocket.configuration.properties.RsocketProperties;
+import xyz.heckman.demo.rsocket.dto.ErrorDto;
 
 @Slf4j
 @Configuration
@@ -27,5 +30,10 @@ public class RsocketConfiguration {
 				.retry(Retry.fixedDelay(Long.MAX_VALUE, rsocketProperties.getResume().getRetryDelay())
 						.doBeforeRetry(s -> log.debug("Disconnected. Trying to resume...")));
 		return rSocketServer -> rSocketServer.resume(resume);
+	}
+
+	@MessageExceptionHandler
+	public Mono<ErrorDto> handleException(Exception e) {
+		return Mono.error(e);
 	}
 }
