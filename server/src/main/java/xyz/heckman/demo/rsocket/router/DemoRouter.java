@@ -1,15 +1,12 @@
 package xyz.heckman.demo.rsocket.router;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import xyz.heckman.demo.rsocket.dto.DemoDataDto;
 
-import java.io.Serializable;
 import java.time.Duration;
 
 @Slf4j
@@ -41,11 +38,4 @@ public class DemoRouter {
 				.then();
 	}
 
-	@Getter
-	@Builder
-	@ToString
-	public static class DemoDataDto implements Serializable {
-		private static final long serialVersionUID = 6605059569794491243L;
-		private long count;
-	}
 }
