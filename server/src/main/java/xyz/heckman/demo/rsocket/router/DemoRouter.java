@@ -1,4 +1,4 @@
-package xyz.heckman.demo.rsocket.routing;
+package xyz.heckman.demo.rsocket.router;
 
 import lombok.Builder;
 import lombok.Getter;
