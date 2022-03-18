@@ -10,7 +10,7 @@ import java.time.Duration;
 @Setter
 @ConfigurationProperties("rsocket")
 public class RsocketProperties {
-	private Resume resume;
+	private Resume resume = new Resume();
 
 	@Getter
 	@Setter
