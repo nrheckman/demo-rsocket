@@ -18,7 +18,9 @@ public class DemoRouter {
 
 	@MessageMapping("demo.stream")
 	public Flux<DemoDataDto> demoStream(Mono<DemoDataDto> dataDtoMono) {
-		return dataDtoMono.flatMapMany(dataDto -> Flux.interval(Duration.ofSeconds(1))
+		return dataDtoMono
+				.doOnNext(dataDto -> log.info("Stream request {}", dataDto))
+				.flatMapMany(dataDto -> Flux.interval(Duration.ofSeconds(1))
 				.map(count -> count + dataDto.getCount())
 				.switchMap(count -> count < 10
 						? Mono.just(DemoDataDto.builder().count(count).build())
@@ -28,13 +30,14 @@ public class DemoRouter {
 	@MessageMapping("demo.requestResponse")
 	public Mono<DemoDataDto> demoRequestResponse(Mono<DemoDataDto> dataDtoMono) {
 		return dataDtoMono
+				.doOnNext(dataDto -> log.info("Response request {}", dataDto))
 				.map(dataDto -> DemoDataDto.builder().count(dataDto.getCount()).build());
 	}
 
 	@MessageMapping("demo.fireForget")
 	public Mono<Void> demoFireForget(Mono<DemoDataDto> dataDtoMono) {
 		return dataDtoMono
-				.doOnNext(dataDto -> log.info("Received {}", dataDto))
+				.doOnNext(dataDto -> log.info("Fire and Forget request {}", dataDto))
 				.then();
 	}
 
