@@ -15,6 +15,7 @@ dependencies {
 
   // Spring security related dependencies adding support for bearer token based authentication
   implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+  implementation 'org.springframework.security:spring-security-oauth2-jose'
   implementation 'org.springframework.security:spring-security-rsocket'
   implementation 'org.springframework.security:spring-security-messaging'
 
