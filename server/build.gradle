@@ -13,6 +13,11 @@ compileJava {
 dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-rsocket'
 
+  // Spring security related dependencies adding support for bearer token based authentication
+  implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+  implementation 'org.springframework.security:spring-security-rsocket'
+  implementation 'org.springframework.security:spring-security-messaging'
+
   compileOnly 'org.projectlombok:lombok'
 
   annotationProcessor 'org.projectlombok:lombok'
