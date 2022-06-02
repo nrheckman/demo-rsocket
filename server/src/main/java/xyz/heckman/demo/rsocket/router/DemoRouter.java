@@ -1,12 +1,16 @@
 package xyz.heckman.demo.rsocket.router;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import xyz.heckman.demo.rsocket.dto.DemoDataDto;
+import xyz.heckman.demo.rsocket.dto.ErrorDto;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.time.Duration;
 
 @Slf4j
@@ -38,4 +42,15 @@ public class DemoRouter {
 				.then();
 	}
 
+	@MessageExceptionHandler
+	public Mono<ErrorDto> handleException(Exception e) {
+		return Mono.fromCallable(() -> {
+			StringWriter errors = new StringWriter();
+			e.printStackTrace(new PrintWriter(errors));
+			return ErrorDto.builder()
+					.message(e.getMessage())
+					.stackTrace(errors.toString())
+					.build();
+		});
+	}
 }
